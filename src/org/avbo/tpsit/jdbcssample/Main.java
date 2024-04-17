@@ -3,6 +3,26 @@ package org.avbo.tpsit.jdbcssample;
 import java.sql.*;
 
 public class Main {
+	private static Studente[] studenti = {
+			new Studente("MATTEO", "BALLOTTA"),
+			new Studente("GIUSEPPE", "BUTERA"),
+			new Studente("ENRICO", "CAPORALI"),
+			new Studente("MARICA", "CHENG"),
+			new Studente("SEBASTIAN STEFAN", "CIRMIS"),
+			new Studente("NICOLO", "DALL OLIO"),
+			new Studente("ALESSANDRO", "FALSINO"),
+			new Studente("RICCARDO", "FOSCHI"),
+			new Studente("EMANUELE", "GISONNA"),
+			new Studente("AMAR", "ISHTIAQ"),
+			new Studente("MATTIA", "MICILLO"),
+			new Studente("LORENZO", "RANDELLINI"),
+			new Studente("SIMONE", "RIGENERATO"),
+			new Studente("DAVIDE", "SATRIANO"),
+			new Studente("DAVIDE", "SCIARABBA"),
+			new Studente("AYMEN", "SEHBAOUI"),
+			new Studente("CHIARA", "SIGNANI"),
+			new Studente("OMAR", "ZHAR"),
+	};
 	
 	private static String DB_Path = "example.db";
 	/**
@@ -39,7 +59,7 @@ public class Main {
 			System.out.println("Connessione al database effettuata");
 			//Si assicura che non ci siano vecchi dati di esempio
 			ClearDB(conn);
-			
+			InitTestData(conn);
 		} catch (SQLException e) {
 			//Se arriva qui significa che non è
 			//	riuscito a connettersi al database
@@ -65,6 +85,16 @@ public class Main {
 		try (Statement stmt = conn.createStatement();) {
 			// Esegue la query per creare la tabella
 			stmt.execute(command);
+			
+			for (Studente studente : studenti) {
+				String insertQuery = "INSERT INTO studenti (nome,cognome) VALUES('"+ 
+						studente.getNome() +
+						"','" + 						studente.getCognome() +"');";
+				//Aggiunte l'insert fra i comandi da eseguire
+				stmt.addBatch(insertQuery);
+			}
+			//Aggiuge i vari studenti
+			stmt.executeBatch();
 		} catch (SQLException e) {
 			// Se arriva qui significa che c'è stato un errore
 			// nella query
