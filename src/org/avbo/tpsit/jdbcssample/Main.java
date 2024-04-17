@@ -3,6 +3,7 @@ package org.avbo.tpsit.jdbcssample;
 import java.sql.*;
 
 public class Main {
+	
 	private static String DB_Path = "example.db";
 	/**
 	 * Metodo che fornisce la stringa di connessione
@@ -47,6 +48,31 @@ public class Main {
 		}
 		
 	}
+	
+	/**
+	 * Metodo che si occupa di creare una tabella di esempio
+	 * chiamata studenti e metterci dentro qualche dato
+	 * @param conn Connessione da utilizzare
+	 */
+	private static void InitTestData(Connection conn) {
+		// Query necessaria a creare la tabella di esempio
+		// se presente
+		String command = "CREATE TABLE studenti (\r\n"
+				+ "   matricola INTEGER PRIMARY KEY AUTOINCREMENT,\r\n"
+				+ "   nome text NOT NULL,\r\n"
+				+ "   cognome text NOT NULL\r\n"
+				+ ");";
+		try (Statement stmt = conn.createStatement();) {
+			// Esegue la query per creare la tabella
+			stmt.execute(command);
+		} catch (SQLException e) {
+			// Se arriva qui significa che c'è stato un errore
+			// nella query
+			System.out.println("Errore durante la creazione della tabella studenti");
+			e.printStackTrace();
+		}
+	}
+	
 	/**
 	 * Comando che fa in modo di cancellare la tabella studenti
 	 * @param conn Connessione da utilizzare
