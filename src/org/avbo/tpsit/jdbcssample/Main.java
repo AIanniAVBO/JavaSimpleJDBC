@@ -35,7 +35,7 @@ public class Main {
 						//E nome utente e password se presenti
 						GetUsername(), GetPassword());)
 		{
-			
+			System.out.println("Connessione al database effettuata");
 		} catch (SQLException e) {
 			//Se arriva qui significa che non è
 			//	riuscito a connettersi al database
