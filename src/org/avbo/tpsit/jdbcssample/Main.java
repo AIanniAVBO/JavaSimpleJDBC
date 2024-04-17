@@ -36,6 +36,9 @@ public class Main {
 						GetUsername(), GetPassword());)
 		{
 			System.out.println("Connessione al database effettuata");
+			//Si assicura che non ci siano vecchi dati di esempio
+			ClearDB(conn);
+			
 		} catch (SQLException e) {
 			//Se arriva qui significa che non è
 			//	riuscito a connettersi al database
@@ -43,6 +46,25 @@ public class Main {
 			e.printStackTrace();
 		}
 		
+	}
+	/**
+	 * Comando che fa in modo di cancellare la tabella studenti
+	 * @param conn Connessione da utilizzare
+	 */
+	private static void ClearDB(Connection conn)
+	{
+		//Query necessaria a cancella la tabella di esempio
+		//	se presente
+		String command = "DROP TABLE IF EXISTS studenti";
+		try (Statement stmt = conn.createStatement();){
+			//Esegue la query
+			stmt.execute(command);
+		} catch (SQLException e) {
+			//Se arriva qui significa che c'è stato un errore
+			//	nella query
+			System.out.println("Errore durante la pulizia del database");
+			e.printStackTrace();
+		}
 	}
 
 }
